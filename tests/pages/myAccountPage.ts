@@ -1,6 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
 
-export class MyAccountPage {
+export default class MyAccountPage {
     private readonly cancelMembershipButton: Locator;
     private readonly reinstateAccountButton: Locator;
     private readonly membershipReinstatedBanner: Locator;
@@ -59,6 +59,15 @@ export class MyAccountPage {
     async clickReinstateAccountButton() {
         await this.reinstateAccountButton.scrollIntoViewIfNeeded();
         await this.reinstateAccountButton.click();
+    }
+
+    async clickReinstateAccountButtonIfExists() {
+        try {
+            await this.reinstateAccountButton.scrollIntoViewIfNeeded();
+            await this.reinstateAccountButton.click();
+        } catch (error) {
+            console.log('Reinstate Account button does not exist:', error);
+        }
     }
 
     async verifyMembershipReinstatedCheckmarkIsDisplayed() {

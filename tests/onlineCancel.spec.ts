@@ -1,44 +1,75 @@
 import {test} from './utils/testFixtures';
 
-test.only('Verify that user with the State eligible for the online cancel ' +
-    'is able to cancel and reactivate from the Portal.',
-    // ToDo: refactor to not include classes to the test call
-    async ({userUtils, loginPage, headerPage, myAccountPage, cancelMembershipPage, accountReinstatementPage}) => {
+test.describe('Online canceling UI', () => {
+        test.only('Verify that user with the State eligible for the online cancel ' +
+            'is able to cancel and reactivate from the Portal.',
+            // ToDo: refactor to not include classes to the test call
+            async ({loginPage, headerPage, myAccountPage, cancelMembershipPage,
+                           accountReinstatementPage}) => {
 
-        // #0 - Create user -> ToDo
-        // ToDo: Load user from local file
-        // let login = 'anneabtestcsid@dataart.com';
-        let login = userUtils.getLogin();
-        let password = userUtils.getPassword();
-        // let password = 'password1';
+                // #0 - Create user -> ToDo
+                // ToDo: Load user from local file ???
+                // #1
+                await test.step('#1 Login to ScoreSense and navigate to Account Settings', async () => {
+                        await loginPage.loginDefault();
+                        await headerPage.hoverProfileIcon();
+                        await headerPage.clickAccountSettings();
+                });
 
-            // test.setTimeout(150_000);
+                await test.step('#2 Click "Cancel Membership" button', async () => {
+                        await myAccountPage.clickCancelMembership();
+                        await cancelMembershipPage.verifyCancelUrl();
+                });
 
-        // #1
-        await loginPage.login(login, password);
-        await headerPage.hoverProfileIcon();
-        await headerPage.clickAccountSettings();
-        // #2
-        await myAccountPage.clickCancelMembership();
-        await cancelMembershipPage.verifyCancelUrl();
-        // #3
-        await cancelMembershipPage.clickYesCancelMembershipButton();
-        await cancelMembershipPage.verifySurveyUrl();
-        await cancelMembershipPage.verifyTitle();
-        await cancelMembershipPage.verifySubTitle();
-        const number = await cancelMembershipPage.getNumberFromSubtitle();
-        const date = await cancelMembershipPage.getDateFromSubtitle();
-        // #4 - DB check -> ToDo
-        // #5
-        await cancelMembershipPage.clickCloseButton();
-        await headerPage.hoverProfileIcon();
-        await headerPage.clickAccountSettings();
-        // #6
-        await myAccountPage.verifyAccountCancelTitles();
-        await myAccountPage.verifyAccountCancelTitleContainsNumber(number);
-        await myAccountPage.verifyAccountCancelTitleContainsDate(date);
-        await myAccountPage.clickReinstateAccountButton();
-        // #7
-        await accountReinstatementPage.confirmButtonClick(myAccountPage);
-        // #8 - DB check -> ToDo
+                await test.step('#3 Click "Yes, Cancel Membership" button', async () => {
+                        await cancelMembershipPage.clickYesCancelMembershipButton();
+                        await cancelMembershipPage.verifySurveyUrl();
+                        await cancelMembershipPage.verifyTitle();
+                        await cancelMembershipPage.verifySubTitle();
+                })
+
+                const [number, date] = await test.step('Save cancellation number and date', async() => {
+                        return [await cancelMembershipPage.getNumberFromSubtitle(),
+                                await cancelMembershipPage.getDateFromSubtitle()];
+                })
+
+                // #4 - DB check -> ToDo
+
+                await test.step('#5 Click "Close" button and navigate to the Account Settings', async () => {
+                        await cancelMembershipPage.clickCloseButton();
+                        await headerPage.hoverProfileIcon();
+                        await headerPage.clickAccountSettings();
+                })
+
+                await test.step('#6 Click "Reinstate Account" button', async () => {
+                        await myAccountPage.verifyAccountCancelTitles();
+                        await myAccountPage.verifyAccountCancelTitleContainsNumber(number);
+                        await myAccountPage.verifyAccountCancelTitleContainsDate(date);
+                        await myAccountPage.clickReinstateAccountButton();
+                })
+
+                await test.step('#7 Click "Confirm" button on Account Reinstatement', async () => {
+                        await accountReinstatementPage.confirmButtonClick(myAccountPage);
+                })
+                // #8 - DB check -> ToDo
+        })
+
+        test('DB connection', async ({userUtils, dbUtils}) => {
+                let query = `select * from CreditFulfillment..aspnet_Users where username=
+                                                    ${userUtils.getLogin()}`
+                await dbUtils.executeQuery(query);
+        })
+
+        test.afterEach( async ({ loginPage, headerPage, myAccountPage, accountReinstatementPage }, testInfo) => {
+                await test.step('TearDown: Reinstate Account', async () => {
+                        if (testInfo.status !== testInfo.expectedStatus) {
+                                console.log('TearDown: Reinstate Account');
+                                await loginPage.loginDefault();
+                                await headerPage.hoverProfileIcon();
+                                await headerPage.clickAccountSettings();
+                                await myAccountPage.clickReinstateAccountButtonIfExists();
+                                await accountReinstatementPage.confirmButtonClick(myAccountPage);
+                        }
+                })
+        })
 });

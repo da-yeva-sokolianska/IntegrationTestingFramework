@@ -1,4 +1,4 @@
-export class TextUtils {
+export default class TextUtils {
 
 
     async extractDateFromText(text: string) {

@@ -1,17 +1,20 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {TextUtils} from "../utils/textUtils";
+import TextUtils from "../utils/textUtils";
+import PwUtils from "../utils/pwUtils";
 
-export class CancelMembershipPage {
+export default class CancelMembershipPage {
     private readonly yesCancelMembershipButton: Locator;
     private readonly closeButton: Locator;
     private readonly canceledSubscriptionSubtitle: Locator;
     private readonly textUtils: TextUtils;
+    private readonly pwUtils: PwUtils;
 
     constructor(public readonly page: Page) {
         this.yesCancelMembershipButton = this.page.locator('[data-id="cancel-membership-button"] button');
         this.closeButton = this.page.locator('[data-id="close-button"] button');
         this.canceledSubscriptionSubtitle = this.page.locator('.text-navy');
         this.textUtils = new TextUtils();
+        this.pwUtils = new PwUtils();
     }
 
     async clickYesCancelMembershipButton() {
@@ -38,7 +41,7 @@ export class CancelMembershipPage {
         this.textUtils.extractNumberFromText(subtitleText).then((number) => {
             console.log(`Extracted number is ${number}`);
             return number;
-        })
+        });
     }
 
     async getDateFromSubtitle() {
@@ -57,12 +60,11 @@ export class CancelMembershipPage {
         await this.closeButton.click();
     }
 
-    // ToDo: update hardcoded links
     async verifyCancelUrl() {
-        await expect(this.page).toHaveURL('https://ss-spa-qa1.ottest.net/cip/account/cancel');
+        await expect(this.page).toHaveURL(`${this.pwUtils.getBaseUrl()}/cip/account/cancel`);
     }
 
     async verifySurveyUrl() {
-        await expect(this.page).toHaveURL('https://ss-spa-qa1.ottest.net/cip/account/cancel/survey');
+        await expect(this.page).toHaveURL(`${this.pwUtils.getBaseUrl()}/cip/account/cancel/survey`);
     }
 }

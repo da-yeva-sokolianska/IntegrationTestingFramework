@@ -1,7 +1,7 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {MyAccountPage} from "./myAccountPage";
+import MyAccountPage from "./myAccountPage";
 
-export class AccountReinstatementPage {
+export default class AccountReinstatementPage {
     private readonly confirmButton: Locator;
 
     constructor(public readonly page: Page) {

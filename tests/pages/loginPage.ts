@@ -1,17 +1,21 @@
 import {expect, Locator, Page} from "@playwright/test";
+import UserUtils from "../utils/userUtils";
 
-import { format } from 'date-fns';
-
-export class LoginPage {
+export default class LoginPage {
     private readonly email: Locator;
     private readonly password: Locator;
     private readonly signInBtn: Locator;
+    private readonly loadingWave: Locator;
+
+    private userUtils: UserUtils;
 
 
     constructor(public readonly page: Page) {
         this.email = this.page.locator('[name="username"]');
         this.password = this.page.locator('[name="password"]');
         this.signInBtn = this.page.locator('Button[name="sign-in"]');
+        this.loadingWave = this.page.locator('#applicationHost .splashV3 .loadingWave');
+        this.userUtils = new UserUtils();
     }
 
     async login(email: string, password: string) {
@@ -19,16 +23,17 @@ export class LoginPage {
         await this.email.fill(email);
         await this.password.fill(password);
         await this.signInBtn.click();
-        await this.page.waitForTimeout(20_000);
-
-        let formattedDate: string = format(new Date(), `MM-dd HH:mm:ss:sss`);
+        await this.loadingWave.waitFor({state:'hidden'})
 
         await expect(this.page.locator('div#applicationHost [data-control="Mobile-Menu-Bar-Logo"]'))
             .toHaveClass('page-mobile-menu-logo')
-        //     .then(() => {
-        //         this.page.screenshot({ path: `./tests/screenshots/${formattedDate}.png`, fullPage: true })
-        // })
-        // ToDo: Extract screenshot function
+    }
+
+    async loginDefault() {
+        await this.login(
+            this.userUtils.getLogin(),
+            this.userUtils.getPassword()
+        )
     }
 
 }

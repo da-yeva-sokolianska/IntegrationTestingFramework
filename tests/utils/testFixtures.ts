@@ -1,11 +1,13 @@
 import { test as base } from '@playwright/test';
-import {LoginPage} from "../pages/loginPage";
-import {HeaderPage} from "../pages/headerPage";
-import {MyAccountPage} from "../pages/myAccountPage";
-import {CancelMembershipPage} from "../pages/cancelMembershipPage";
-import {AccountReinstatementPage} from "../pages/accountReinstatementPopup";
-import {TextUtils} from "./textUtils";
-import {UserUtils} from "./userUtils";
+import LoginPage from "../pages/loginPage";
+import HeaderPage from "../pages/headerPage";
+import MyAccountPage from "../pages/myAccountPage";
+import CancelMembershipPage from "../pages/cancelMembershipPage";
+import AccountReinstatementPage from "../pages/accountReinstatementPopup";
+import TextUtils from "./textUtils";
+import UserUtils from "./userUtils";
+import PwUtils from "./pwUtils";
+import DbUtils from "./dbUtils";
 
 type MyFixtures = {
     loginPage: LoginPage;
@@ -15,6 +17,8 @@ type MyFixtures = {
     accountReinstatementPage: AccountReinstatementPage;
     textUtils: TextUtils;
     userUtils: UserUtils;
+    pwUtils: PwUtils;
+    dbUtils: DbUtils;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -25,6 +29,8 @@ export const test = base.extend<MyFixtures>({
     accountReinstatementPage: async ({ page }, use) => {await use (new AccountReinstatementPage(page))},
     textUtils: async ({}, use) => {await use (new TextUtils())},
     userUtils: async ({}, use) => {await use (new UserUtils())},
+    pwUtils: async ({}, use) => {await use (new PwUtils())},
+    dbUtils: async ({}, use) => {await use (new DbUtils())},
 });
 
 export { expect } from '@playwright/test';

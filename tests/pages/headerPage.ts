@@ -1,6 +1,6 @@
-import {expect, Locator, Page} from "@playwright/test";
+import {Locator, Page} from "@playwright/test";
 
-export class HeaderPage {
+export default class HeaderPage {
     private readonly profileIcon: Locator;
     private readonly accountSettings: Locator;
 

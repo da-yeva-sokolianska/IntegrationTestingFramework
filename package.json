@@ -9,9 +9,11 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.49.0",
-    "@types/node": "^22.10.1"
+    "@types/node": "^22.10.1",
+    "@types/pg": "^8.10.2"
   },
   "dependencies": {
-    "date-fns": "^4.1.0"
+    "date-fns": "^4.1.0",
+    "pg": "^8.13.1"
   }
 }

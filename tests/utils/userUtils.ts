@@ -1,4 +1,4 @@
-export class UserUtils {
+export default class UserUtils {
 
 
     getLogin() {
