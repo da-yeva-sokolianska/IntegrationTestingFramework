@@ -1,15 +1,15 @@
 import {test} from './utils/testFixtures';
 
 test.describe('Online canceling UI', () => {
-        test.only('Verify that user with the State eligible for the online cancel ' +
+        test('Verify that user with the State eligible for the online cancel ' +
             'is able to cancel and reactivate from the Portal.',
-            // ToDo: refactor to not include classes to the test call
+            // ToDo: refactor to not include classes to the test call ?
             async ({loginPage, headerPage, myAccountPage, cancelMembershipPage,
                            accountReinstatementPage}) => {
 
                 // #0 - Create user -> ToDo
                 // ToDo: Load user from local file ???
-                // #1
+
                 await test.step('#1 Login to ScoreSense and navigate to Account Settings', async () => {
                         await loginPage.loginDefault();
                         await headerPage.hoverProfileIcon();
@@ -52,12 +52,6 @@ test.describe('Online canceling UI', () => {
                         await accountReinstatementPage.confirmButtonClick(myAccountPage);
                 })
                 // #8 - DB check -> ToDo
-        })
-
-        test('DB connection', async ({userUtils, dbUtils}) => {
-                let query = `select * from CreditFulfillment..aspnet_Users where username=
-                                                    ${userUtils.getLogin()}`
-                await dbUtils.executeQuery(query);
         })
 
         test.afterEach( async ({ loginPage, headerPage, myAccountPage, accountReinstatementPage }, testInfo) => {
