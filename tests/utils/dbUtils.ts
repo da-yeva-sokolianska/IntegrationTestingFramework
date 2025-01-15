@@ -8,10 +8,8 @@ export default class DbUtils {
     private dataBase;
 
     constructor() {
-        this.user = "ysokolianska";
-        this.password = "Chepets_098poilk1";
-        // this.user = "svc-jenkinsblds";
-        // this.password = "Pom1dor4ik";
+        this.user = "svc-jenkinsblds";
+        this.password = "Pom1dor4ik";
         this.server = "AWECORPQA1DB01.onetech.local";
         this.dataBase = "OTServices";
     }
