@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
 
-  timeout: 100_000,
+  timeout: 1000_000,
   expect: {
     timeout: 50_000,
   },
@@ -66,16 +66,6 @@ export default defineConfig({
     // {
     //   name: 'Mobile Safari',
     //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
 

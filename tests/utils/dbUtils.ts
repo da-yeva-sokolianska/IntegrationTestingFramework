@@ -1,71 +1,36 @@
-import { Client } from "pg";
-
+import * as sql from 'msnodesqlv8';
 
 export default class DbUtils {
-    // private DBConfig = {
-    //     user: "svc-jenkinsblds",
-    //     host: "AWECORPQA1DB01.onetech.local", // https://environment.onetech.local
-    //     // database: "AWECORPQA1DB01", // "jdbc:sqlserver://environment.onetech.local;databaseName=OTServices;integratedSecurity=true;"
-    //     password: "Pom1dor4ik",
-    //     port: 1433,
-    //     idleTimeoutMillis: 300000,
-    //     connectionTimeoutMillis: 20000,
-    //     // options: {
-    //     //     encrypt: true,
-    //     //     trustServerCertificate: true,
-    //     //     integratedSecurity: true
-    //     // }
-    //     ssl: {
-    //         rejectUnauthorized: false
-    //     }
-    // };
 
-    private DBConfig = {
-        user: "svc-jenkinsblds",
-        host: "AWECORPQA1DB01.onetech.local",
-        database: "OTServices",
-        password: "Pom1dor4ik",
-        port: 1433,
-        idleTimeoutMillis: 300000,
-        connectionTimeoutMillis: 20000,
-        ssl: {
-            rejectUnauthorized: false
-        }
-    };
+    private readonly user: string;
+    private readonly password: string;
+    private server: string;
+    private dataBase;
 
-    // async executeQuery(query: string) {
-    //     // const client = new Client(this.DBConfig);
-    //     // await client.connect();
-    //     // const result = await client.query(query);
-    //     // console.log(result.rows);
-    //     // await client.end();
-    //
-    //     const client = new Client(this.DBConfig);
-    //     try {
-    //         await client.connect();
-    //         const result = await client.query(query);
-    //         console.log(result.rows);
-    //     } catch (error) {
-    //         console.error('Error executing query:', error);
-    //     } finally {
-    //         await client.end();
-    //     }
-    // }
+    constructor() {
+        this.user = "ysokolianska";
+        this.password = "Chepets_098poilk1";
+        // this.user = "svc-jenkinsblds";
+        // this.password = "Pom1dor4ik";
+        this.server = "AWECORPQA1DB01.onetech.local";
+        this.dataBase = "OTServices";
+    }
 
     async executeQuery(query: string) {
-        const client = new Client({
-            ...this.DBConfig,
-            native: true // Use pg-native for Windows Authentication
+        const connectionString = `DSN=${this.server};server=${this.server};Database=${this.dataBase};Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}`;
+        const connectionStringJava = "jdbc:sqlserver://AWECORPQA1DB01.onetech.local;integratedSecurity=true;";
+
+        console.log("Start Connection");
+
+        return new Promise((resolve, reject) => { // Wrap the SQL query in a Promise
+            sql.query(connectionString, query, (err, rows) => {
+                console.log("Inside Connection");
+                if (err) {
+                    reject(err); // Reject the promise if there is an error
+                } else {
+                    resolve(rows); // Resolve the promise with the results
+                }
+            });
         });
-        try {
-            await client.connect();
-            const result = await client.query(query);
-            console.log(result.rows);
-        } catch (error) {
-            console.error('Error executing query:', error);
-        } finally {
-            await client.end();
-        }
     }
 }
-

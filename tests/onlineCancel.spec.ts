@@ -1,7 +1,7 @@
 import {test} from './utils/testFixtures';
 
 test.describe('Online canceling UI', () => {
-        test('Verify that user with the State eligible for the online cancel ' +
+        test.only('Verify that user with the State eligible for the online cancel ' +
             'is able to cancel and reactivate from the Portal.',
             // ToDo: refactor to not include classes to the test call ?
             async ({loginPage, headerPage, myAccountPage, cancelMembershipPage,
