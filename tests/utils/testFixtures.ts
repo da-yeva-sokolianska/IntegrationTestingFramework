@@ -8,6 +8,8 @@ import TextUtils from "./textUtils";
 import UserUtils from "./userUtils";
 import PwUtils from "./pwUtils";
 import DbUtils from "./dbUtils";
+import DbUtilsSql from "./dbUtilsSql";
+import DbUtilsTedious from "./dbUtilsTedious";
 
 type MyFixtures = {
     loginPage: LoginPage;
@@ -19,6 +21,8 @@ type MyFixtures = {
     userUtils: UserUtils;
     pwUtils: PwUtils;
     dbUtils: DbUtils;
+    dbUtilsSql: DbUtilsSql;
+    dbUtilsTedious: DbUtilsTedious;
 };
 
 export const test = base.extend<MyFixtures>({
@@ -31,6 +35,8 @@ export const test = base.extend<MyFixtures>({
     userUtils: async ({}, use) => {await use (new UserUtils())},
     pwUtils: async ({}, use) => {await use (new PwUtils())},
     dbUtils: async ({}, use) => {await use (new DbUtils())},
+    dbUtilsSql: async ({}, use) => {await use (new DbUtilsSql())},
+    dbUtilsTedious: async ({}, use) => {await use (new DbUtilsTedious())},
 });
 
 export { expect } from '@playwright/test';

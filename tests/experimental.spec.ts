@@ -5,26 +5,44 @@ test.describe('Experiments with new utils', () => {
     test('DB connection', async ({userUtils, dbUtils}) => {
         let query = `select * from CreditFulfillment..aspnet_Users where username=
                                                     ${userUtils.getLogin()}`
-        // await dbUtils.executeQuery(query);
+        await dbUtils.executeQuery(query);
 
         try {
             const results = await dbUtils.executeQuery(query);
-            console.log("Query Results:", results);
+            console.log("$$$ Query Results:", results);
         } catch (error) {
-            console.error("Query failed:", error);
+            console.error("$$$ Query failed:", error);
         }
-        console.log("Execution complete!");
+        console.log("$$$ Execution complete!");
 
     });
 
-    test.skip('Enrollment test', async({userUtils}) => {
+    test('DB connection Tedious', async ({userUtils, dbUtilsTedious}) => {
+        let query = `select * from CreditFulfillment..aspnet_Users where username=
+                                                    ${userUtils.getLogin()}`
+        await dbUtilsTedious.executeQuery(query);
 
-        const userName = 'CSIDAnneabTest';
-        const env = 'AWEQA1';
-        await userUtils.enroll(userName, env, true)
-            .then((response) => {
+        try {
+            const results = await dbUtilsTedious.executeQuery(query);
+            console.log("$$$ Query Results:", results);
+        } catch (error) {
+            console.error("$$$ Query failed:", error);
+        }
+        console.log("$$$ Execution complete!");
+    });
 
-                expect(response).toBe(303)})
+    test.only('DB connection Sql', async ({userUtils, dbUtilsSql}) => {
+        let query = `select * from CreditFulfillment..aspnet_Users where username=
+                                                    ${userUtils.getLogin()}`
+        await dbUtilsSql.executeQuery(query);
 
-    })
+        try {
+            const results = await dbUtilsSql.executeQuery(query);
+            console.log("$$$ Query Results:", results);
+        } catch (error) {
+            console.error("$$$ Query failed:", error);
+        }
+        console.log("$$$ Execution complete!");
+
+    });
 });
