@@ -36,8 +36,8 @@
 - firstTestBranch
 - newTestLook
 
-## See CREDENTIALS_LOCATION.md for:
-- Detailed code snippets
-- Security recommendations
-- Remediation checklist
-- Complete impact assessment
+## For detailed information, see CREDENTIALS_LOCATION.md:
+- Detailed code snippets with exact line numbers
+- Comprehensive security recommendations
+- Complete remediation checklist
+- Full impact assessment and risk analysis

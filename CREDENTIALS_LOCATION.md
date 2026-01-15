@@ -44,7 +44,7 @@ constructor() {
     this.password = "Pom1dor4ik";
     this.server = "AWECORPQA1DB01.onetech.local";
     this.dataBase = "OTServices";
-    this.domain = "ONETECH.local"
+    this.domain = "ONETECH.local";
 }
 ```
 
@@ -63,7 +63,7 @@ constructor() {
     this.password = "Pom1dor4ik";
     this.server = "AWECORPQA1DB01.onetech.local";
     this.dataBase = "OTServices";
-    this.domain = "ONETECH.local"
+    this.domain = "ONETECH.local";
 }
 ```
 
@@ -82,7 +82,7 @@ constructor() {
 const jenkinsUrl = 'https://awecorpjen001.onetech.local';
 const jobUrl = jenkinsUrl + '/job/Enroll_Products/build';
 const jenkinsLogin = 'svc-jenkinsblds';
-const jenkinsPassword = 'Pom1dor4ik'
+const jenkinsPassword = 'Pom1dor4ik';
 ```
 
 ---
@@ -104,7 +104,7 @@ getLogin() {
 }
 
 getPassword() {
-    const defaultPassword = 'password1'
+    const defaultPassword = 'password1';
     let password = process.env.password ? process.env.password : defaultPassword;
     console.log(`Current password: ${password}`);
     return password;
